@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lo que hace tu donativo | Caminos de Agua</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #ffffff;
+      padding: 2rem 1rem 3rem;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .header h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #253489;
+      margin-bottom: 0.4rem;
+    }
+
+    .header p {
+      font-size: 0.9rem;
+      color: #555;
+      max-width: 460px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+
+    @media (max-width: 520px) {
+      .grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 340px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      border: 1.5px solid #e0e4f0;
+      border-radius: 14px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .card:hover {
+      border-color: #35abbd;
+    }
+
+    .card-image {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .card-bottom {
+      padding: 0.85rem 1rem;
+      text-align: center;
+    }
+
+    .card-amount {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #35abbd;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.25rem;
+    }
+
+    .card-title {
+      font-size: 0.88rem;
+      font-weight: 400;
+      color: #253489;
+      line-height: 1.5;
+      margin-bottom: 0.6rem;
+    }
+
+    .card-title strong {
+      font-weight: 700;
+    }
+
+    .card-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      background: none;
+      border: none;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .card-toggle-label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #35abbd;
+    }
+
+    .card-toggle-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #f0f3fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.2s;
+    }
+
+    .card-toggle-icon svg {
+      width: 10px;
+      height: 10px;
+      stroke: #253489;
+      stroke-width: 2.5;
+      fill: none;
+      transition: transform 0.25s;
+    }
+
+    .card.open .card-toggle-icon {
+      background: #253489;
+    }
+
+    .card.open .card-toggle-icon svg {
+      stroke: #fff;
+      transform: rotate(180deg);
+    }
+
+    .card.open .card-toggle-label {
+      color: #253489;
+    }
+
+    .card-description {
+      display: none;
+      font-size: 0.83rem;
+      color: #333;
+      line-height: 1.7;
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid #e0e4f0;
+      text-align: center;
+    }
+
+    .card.open .card-description {
+      display: block;
+    }
+
+    .donate-btn {
+      display: inline-block;
+      margin-top: 0.85rem;
+      background: #35abbd;
+      color: #ffffff;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.5rem 1.2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .donate-btn:hover {
+      background: #1180ad;
+    }
+
+    .footer-cta {
+      text-align: center;
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid #e0e4f0;
+    }
+
+    .footer-cta p {
+      font-size: 0.88rem;
+      color: #555;
+      margin-bottom: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .footer-cta a {
+      display: inline-block;
+      background: #253489;
+      color: #ffffff;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 600;
+      padding: 0.7rem 1.9rem;
+      border-radius: 50px;
+      text-decoration: none;
+    }
+
+    .footer-cta a:hover {
+      background: #1a256b;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>Lo que hace tu donativo</h1>
+    <p>Cada dólar va directamente al acceso al agua limpia para familias en comunidades rurales de Guanajuato.</p>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <div class="footer-cta">
+    <p>También puedes donar cualquier cantidad en nuestra página de donaciones.</p>
+    <a href="https://caminos-de-agua.givecloud.co/fundraising/forms/8NDR96EK" target="_blank" rel="noopener">Donar ahora</a>
+  </div>
+
+  <script>
+    const DONATE_URL = 'https://caminos-de-agua.givecloud.co/fundraising/forms/8NDR96EK';
+
+    const tiers = [
+      {
+        amount: 'USD $1,400',
+        title: 'Financia por completo un <strong>sistema de captación de agua de lluvia.</strong>',
+        image: '1400.png',
+        description: 'Este donativo financia por completo un Sistema de Captación de Agua de Lluvia para una familia: captación en techo, canaletas, desviador de primeras lluvias, cisterna de almacenamiento y un filtro de agua de uso doméstico. El agua de lluvia está naturalmente libre de arsénico y fluoruro, lo que la convierte en una de las soluciones de agua segura más efectivas de la región. Una familia que construye este sistema está construyendo algo que les servirá a ellos y a sus hijos por generaciones.'
+      },
+      {
+        amount: 'USD $800',
+        title: 'Cubre el costo de una <strong>cisterna para un sistema de captación de agua de lluvia.</strong>',
+        image: '800.png',
+        description: 'La cisterna es el corazón de un sistema de captación de agua de lluvia: el tanque central que almacena el agua limpia de una familia durante la temporada seca. Este donativo cubre la cisterna por completo, dando a una familia la capacidad de almacenar suficiente agua segura para que dure de una temporada de lluvias a la siguiente.'
+      },
+      {
+        amount: 'USD $500',
+        title: 'Equipa el techo de una familia con todo lo necesario para <strong>captar y filtrar agua de lluvia.</strong>',
+        image: '500.png',
+        description: 'Este donativo equipa el techo de una familia con todo lo necesario para captar agua de lluvia de manera segura: canaletas, conexiones, un desviador de primeras lluvias y un filtro de agua de uso doméstico. Es la parte del sistema que transforma un techo en una fuente de agua.'
+      },
+      {
+        amount: 'USD $250',
+        title: 'Cubre nuestro costo total para integrar a <strong>una familia a Nuestra Agua,</strong> nuestro programa comunitario de tratamiento de agua.',
+        image: '250.png',
+        description: 'Nuestra Agua es nuestro programa comunitario de tratamiento de agua, diseñado para familias cuyos pozos contienen niveles peligrosos de arsénico y fluoruro. Subsidiamos todo lo necesario para poner en marcha un sistema: construcción, instalación, organización comunitaria y capacitación de operadores. Este donativo cubre nuestro costo por familia, aproximadamente $50 por persona, o $250 para una familia de cinco. Una vez que el sistema está en funcionamiento, la comunidad lo opera ella misma, cubriendo los costos continuos mediante pequeñas cuotas de agua. El objetivo es que cada sistema sea completamente autosustentable en dos o tres años.'
+      },
+      {
+        amount: 'USD $100',
+        title: 'Patrocina un <strong>taller comunitario de salud.</strong>',
+        image: '100.png',
+        description: 'En muchas de las comunidades con las que trabajamos, las familias han estado bebiendo agua contaminada durante años sin saberlo. El arsénico y el fluoruro no tienen color, sabor ni olor. Este donativo patrocina un taller comunitario de salud en el que las familias aprenden, muchas veces por primera vez, qué contiene realmente su agua, qué significa para su salud y qué pueden hacer al respecto.'
+      },
+      {
+        amount: 'USD $50',
+        title: 'Proporciona un <strong>filtro de agua</strong> para una familia.',
+        image: '50.png',
+        description: 'Este donativo proporciona un filtro de agua cerámico que elimina bacterias y patógenos del agua de lluvia captada, brindando agua potable segura en el hogar durante los próximos tres años. Simple, probado y efectivo.'
+      }
+    ];
+
+    const grid = document.getElementById('grid');
+
+    tiers.forEach((tier) => {
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      card.innerHTML = `
+        <a href="${DONATE_URL}" target="_blank" rel="noopener"><img class="card-image" src="${tier.image}" alt="${tier.amount}" style="cursor:pointer;" /></a>
+        <div class="card-bottom">
+          <div class="card-title">${tier.title}</div>
+          <button class="card-toggle" aria-expanded="false">
+            <span class="card-toggle-label">Más información</span>
+            <span class="card-toggle-icon">
+              <svg viewBox="0 0 12 12"><polyline points="2,3 6,9 10,3"/></svg>
+            </span>
+          </button>
+          <div class="card-description">
+            <p>${tier.description}</p>
+            <a class="donate-btn" href="${DONATE_URL}" target="_blank" rel="noopener">Donar ${tier.amount}</a>
+          </div>
+        </div>
+      `;
+
+      const toggle = card.querySelector('.card-toggle');
+      const label = card.querySelector('.card-toggle-label');
+
+      toggle.addEventListener('click', () => {
+        const isOpen = card.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', isOpen);
+        label.textContent = isOpen ? 'Ver menos' : 'Más información';
+      });
+
+      grid.appendChild(card);
+    });
+  </script>
+
+</body>
+</html>
